@@ -8,59 +8,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
-- Expo modules support
-- Cloud sync integration
+- visionOS navigation support
 
-## [1.2.0] - 2026-02-06
-
-### Added
-- **MMKV Storage**
-  - Ultra-fast key-value storage
-  - Multi-process support
-  - Encryption support
-  - React hooks integration
-
-- **SQLite Storage**
-  - Type-safe ORM
-  - Migration support
-  - Transaction support
-  - Query builder
-
-- **Secure Storage**
-  - Keychain/Keystore integration
-  - Biometric protection
-  - Encryption at rest
-  - Secure sharing
-
-- **File Storage**
-  - Document storage
-  - Image caching
-  - Large file handling
-  - Background downloads
-
-### Changed
-- Improved TypeScript types
-- Better error messages
-- Enhanced React Native 0.73 support
-
-### Fixed
-- Memory leak in file cache
-- Race condition in MMKV
-
-## [1.1.0] - 2026-01-15
+## [1.0.0] - 2024-01-15
 
 ### Added
-- AsyncStorage migration tool
-- React Query integration
-- Zustand middleware
+- Type-safe navigation with compile-time checks
+- SwiftUI NavigationStack integration
+- Deep linking support with URL parsing
+- Tab bar coordination
+- Modal presentation handling
+- Navigation state persistence
+- Route parameters with type safety
+- Navigation interceptors (guards)
+- Animated transitions
+- Back stack management
+- Child router support (coordinator pattern)
 
-## [1.0.0] - 2026-01-01
+### Features
+- Zero dependencies
+- Protocol-oriented design
+- Full async/await support
 
-### Added
-- Initial release with MMKV and SQLite support
-- Full documentation and examples
-
-[Unreleased]: https://github.com/muhittincamdali/ReactNativeStorage/compare/v1.2.0...HEAD
-[1.2.0]: https://github.com/muhittincamdali/ReactNativeStorage/compare/v1.1.0...v1.2.0
-[1.1.0]: https://github.com/muhittincamdali/ReactNativeStorage/compare/v1.0.0...v1.1.0
-[1.0.0]: https://github.com/muhittincamdali/ReactNativeStorage/releases/tag/v1.0.0
+[Unreleased]: https://github.com/muhittincamdali/SwiftRouter/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/muhittincamdali/SwiftRouter/releases/tag/v1.0.0
