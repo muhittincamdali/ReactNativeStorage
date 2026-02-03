@@ -1,85 +1,80 @@
-# Contributing to ReactNativeStorage
+# Contributing to SwiftRouter
 
-Thank you for your interest in contributing! 📦
+First off, thank you for considering contributing to SwiftRouter! It's people like you that make SwiftRouter such a great tool.
+
+## Code of Conduct
+
+This project and everyone participating in it is governed by our Code of Conduct. By participating, you are expected to uphold this code.
+
+## How Can I Contribute?
+
+### Reporting Bugs
+
+Before creating bug reports, please check the existing issues as you might find out that you don't need to create one. When you are creating a bug report, please include as many details as possible:
+
+- **Use a clear and descriptive title**
+- **Describe the exact steps which reproduce the problem**
+- **Provide specific examples to demonstrate the steps**
+- **Describe the behavior you observed after following the steps**
+- **Explain which behavior you expected to see instead and why**
+- **Include Swift version and OS version**
+
+### Suggesting Enhancements
+
+Enhancement suggestions are tracked as GitHub issues. When creating an enhancement suggestion, please include:
+
+- **Use a clear and descriptive title**
+- **Provide a step-by-step description of the suggested enhancement**
+- **Provide specific examples to demonstrate the steps**
+- **Describe the current behavior and explain which behavior you expected to see instead**
+- **Explain why this enhancement would be useful**
+
+### Pull Requests
+
+1. Fork the repo and create your branch from `main`
+2. If you've added code that should be tested, add tests
+3. If you've changed APIs, update the documentation
+4. Ensure the test suite passes
+5. Make sure your code follows the existing style (SwiftLint)
+6. Issue that pull request!
 
 ## Development Setup
 
 ```bash
-# Clone the repository
-git clone https://github.com/muhittincamdali/ReactNativeStorage.git
-cd ReactNativeStorage
+# Clone your fork
+git clone https://github.com/YOUR_USERNAME/SwiftRouter.git
 
-# Install dependencies
-npm install
+# Navigate to the project
+cd SwiftRouter
+
+# Open in Xcode
+open Package.swift
 
 # Run tests
-npm test
-
-# Run example app
-cd example && npm install && npm start
+swift test
 ```
 
-## Adding New Storage Backends
+## Style Guide
 
-### 1. Create Backend Module
+- Follow [Swift API Design Guidelines](https://swift.org/documentation/api-design-guidelines/)
+- Use SwiftLint for code style consistency
+- Write meaningful commit messages following [Conventional Commits](https://www.conventionalcommits.org/)
+- Document public APIs with DocC-compatible comments
 
-```typescript
-// src/backends/MyBackend.ts
-import { StorageBackend, StorageOptions } from '../types';
+## Commit Messages
 
-export class MyBackend implements StorageBackend {
-  async get<T>(key: string): Promise<T | null> {
-    // Implementation
-  }
-  
-  async set<T>(key: string, value: T): Promise<void> {
-    // Implementation
-  }
-  
-  async delete(key: string): Promise<void> {
-    // Implementation
-  }
-  
-  async clear(): Promise<void> {
-    // Implementation
-  }
-}
-```
+We follow the [Conventional Commits](https://www.conventionalcommits.org/) specification:
 
-### 2. Add Hook
+- `feat:` A new feature
+- `fix:` A bug fix
+- `docs:` Documentation only changes
+- `style:` Code style changes (formatting, semicolons, etc)
+- `refactor:` Code change that neither fixes a bug nor adds a feature
+- `test:` Adding missing tests
+- `chore:` Changes to the build process or auxiliary tools
 
-```typescript
-// src/hooks/useMyStorage.ts
-export function useMyStorage<T>(key: string, initialValue: T) {
-  // React hook implementation
-}
-```
+Example: `feat(deeplink): add universal link support`
 
-### 3. Add Tests
+## License
 
-```typescript
-describe('MyBackend', () => {
-  it('should store and retrieve values', async () => {
-    const backend = new MyBackend();
-    await backend.set('key', 'value');
-    expect(await backend.get('key')).toBe('value');
-  });
-});
-```
-
-## Code Style
-
-- Use TypeScript strict mode
-- Follow ESLint configuration
-- Add JSDoc comments
-- Use Prettier for formatting
-
-## Pull Request Checklist
-
-- [ ] All tests pass
-- [ ] TypeScript compiles without errors
-- [ ] ESLint passes
-- [ ] Documentation updated
-- [ ] CHANGELOG entry added
-
-Thank you for contributing! 🙏
+By contributing, you agree that your contributions will be licensed under the MIT License.
