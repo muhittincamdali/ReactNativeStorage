@@ -1,7 +1,3 @@
-<p align="center">
-  <img src="assets/logo.png" alt="ReactNativeStorage" width="200"/>
-</p>
-
 <h1 align="center">ReactNativeStorage</h1>
 
 <p align="center">
