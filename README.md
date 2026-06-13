@@ -29,6 +29,17 @@ const [user, setUser] = useStorage<User>('currentUser');
 
 ## Features
 
+---
+
+## 🚀 Performance: The MMKV Standard
+Our storage solution is built for the 2026 performance baseline. By using MMKV as the primary engine, we achieve synchronous read/write speeds that are 30x faster than legacy `AsyncStorage`.
+
+- **Zero-Copy Serialization**: Optimized for high-throughput data.
+- **Strictly Typed**: Full TypeScript integration for 100% data integrity.
+- **Encrypted-by-Default**: Optional ultra-fast encryption without the SQLite overhead.
+
+---
+
 | Feature | Description |
 |---------|-------------|
 | ⚡ **MMKV Backend** | 30x faster than AsyncStorage |
