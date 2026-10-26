@@ -44,16 +44,20 @@ export interface StorageErrorOptions {
 /**
  * The only error type this library throws or reports.
  *
- * `message` names the key, the reason and, for schema failures, the path of the first issue. It
- * never contains the stored value, so an error can be logged without leaking what was being
- * saved. Schema messages can quote the value (some libraries write "received 'abc'"), so they are
- * kept apart in `issues`.
+ * `message` names the key and the reason. It never contains the stored value or its property
+ * names, which can be data too (an object keyed by email address), so an error can be logged
+ * without leaking what was being saved. Where in the value the problem is, and a schema's own
+ * messages, which can quote the value (some libraries write "received 'abc'"), are kept apart in
+ * `issues`.
  */
 export class StorageError extends Error {
   readonly code: StorageErrorCode;
   /** The key the operation was about, without the namespace. */
   readonly key: string | undefined;
-  /** For `VALIDATION_FAILED`: the issues the schema reported. */
+  /**
+   * For `VALIDATION_FAILED`: the issues the schema reported. For `UNSERIALIZABLE`: one issue
+   * whose `path` says where in the value the problem is (`[]` for the value itself).
+   */
   readonly issues: readonly ValidationIssue[] | undefined;
 
   constructor(code: StorageErrorCode, message: string, options: StorageErrorOptions = {}) {

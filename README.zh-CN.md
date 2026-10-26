@@ -1,4 +1,4 @@
-<!-- i18n-source: README.md@f64eb29021b63ba1b4ae1313e04c15e34cf1042a status=reviewed -->
+<!-- i18n-source: README.md@fd2285193b6401028dfb4805475e58e494f53d96 status=reviewed -->
 <!-- brand:start -->
 
 <p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/ReactNativeStorage/main/.github/brand/banner-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/ReactNativeStorage/main/.github/brand/banner-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/ReactNativeStorage/main/.github/brand/banner-light.svg" alt="React Native Storage: Typed, validated key-value storage for React Native and Expo on MMKV, AsyncStorage or SecureStore."></picture></p>
@@ -33,7 +33,7 @@
 - **数据在应用更新后依然可用** — 每条记录都带有 schema 版本；migration 会逐步升级旧记录，`legacy` 读取器会接管在使用本库之前写入的值，来自更新版本应用的记录则保持不变。
 - **过期** — 可按条目或按单次写入设置 time to live；显示已过期值的组件会在过期的那一刻回退到默认值。
 - **失败不会让应用崩溃** — 已存储的数据若损坏或无效，会返回默认值并触发 `onError`；错误信息只会指出键，绝不包含值。
-- **经过测试** — 159 个 Vitest 测试覆盖 codec、校验、migration、TTL、并发写入的顺序、每个 driver、hook 和辅助函数；示例应用通过 [`scripts/e2e-ios.sh`](scripts/e2e-ios.sh) 在 iOS 27 模拟器上针对真实的 MMKV 和 Keychain 运行。
+- **经过测试** — 163 个 Vitest 测试覆盖 codec、校验、migration、TTL、并发写入的顺序、每个 driver、hook 和辅助函数；示例应用通过 [`scripts/e2e-ios.sh`](scripts/e2e-ios.sh) 在 iOS 27 模拟器上针对真实的 MMKV 和 Keychain 运行。
 
 ## 快速开始
 

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { MAX_DEPTH, decodeValue, encodeValue, utf8ByteLength } from '../src/codec';
-import { isStorageError } from '../src/errors';
+import { isStorageError, type StorageError } from '../src/errors';
 
 const roundTrip = (value: unknown): unknown =>
   decodeValue(JSON.parse(JSON.stringify(encodeValue(value))));
@@ -53,9 +53,20 @@ describe('encodeValue / decodeValue', () => {
     expect((result as { polluted?: unknown }).polluted).toBeUndefined();
   });
 
-  it.each([
-    ['a function', { run: () => 1 }, 'run'],
-    ['a symbol', [Symbol('s')], '[0]'],
+  function unserializable(value: unknown) {
+    let caught: unknown;
+    try {
+      encodeValue(value);
+    } catch (error) {
+      caught = error;
+    }
+    expect(isStorageError(caught, 'UNSERIALIZABLE')).toBe(true);
+    return caught as StorageError;
+  }
+
+  it.each<[string, unknown, string, PropertyKey[]]>([
+    ['a function', { run: () => 1 }, 'A function cannot be stored', ['run']],
+    ['a symbol', [Symbol('s')], 'A symbol cannot be stored', [0]],
     [
       'a class instance',
       {
@@ -64,24 +75,31 @@ describe('encodeValue / decodeValue', () => {
         })(),
       },
       'Point',
+      ['when'],
     ],
-    ['an invalid Date', { when: new Date(NaN) }, 'invalid Date'],
-    ['a RegExp', /x/, 'RegExp'],
-  ])('refuses %s and says where it is', (_label, value, fragment) => {
-    let caught: unknown;
-    try {
-      encodeValue(value);
-    } catch (error) {
-      caught = error;
-    }
-    expect(isStorageError(caught, 'UNSERIALIZABLE')).toBe(true);
-    expect((caught as Error).message).toContain(fragment);
+    ['an invalid Date', { when: new Date(NaN) }, 'invalid Date', ['when']],
+    ['a RegExp', /x/, 'RegExp', []],
+    ['a Map value', new Map([['k', () => 1]]), 'function', ['<map value 0>']],
+    ['a Set item', new Set([1, () => 1]), 'function', ['<set item 1>']],
+  ])('refuses %s and says where it is in issues', (_label, value, fragment, path) => {
+    const error = unserializable(value);
+    expect(error.message).toContain(fragment);
+    expect(error.issues).toEqual([{ message: error.message, path }]);
+  });
+
+  it('keeps property names, which can be data, out of the message', () => {
+    const error = unserializable({ users: { 'user@x.com': { save: () => 1 } } });
+    expect(error.message).toBe('A function cannot be stored');
+    expect(error.message).not.toContain('user@x.com');
+    expect(error.issues?.[0]?.path).toEqual(['users', 'user@x.com', 'save']);
   });
 
   it('refuses circular references instead of overflowing the stack', () => {
     const value: Record<string, unknown> = { name: 'loop' };
     value['self'] = value;
-    expect(() => encodeValue(value)).toThrow(/circular reference cannot be stored at self/);
+    const error = unserializable(value);
+    expect(error.message).toBe('A circular reference cannot be stored');
+    expect(error.issues?.[0]?.path).toEqual(['self']);
   });
 
   it(`accepts ${MAX_DEPTH} levels of nesting and refuses more`, () => {

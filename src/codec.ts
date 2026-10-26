@@ -24,12 +24,27 @@ export type StorableValue =
 export const MAX_DEPTH = 64;
 
 const TAG = '$t';
-const MAP_KEY_PATH = '<map key>';
 
 type Tagged = { [TAG]: string; v?: unknown };
 
-function fail(message: string, path: string): never {
-  throw new StorageError('UNSERIALIZABLE', `${message} at ${path || 'the root'}`);
+/**
+ * Where the encoder is, as a chain from the innermost part to the root. Built only into an array
+ * when something fails, so encoding a valid value allocates no path.
+ */
+type Path = { readonly parent: Path; readonly part: PropertyKey } | undefined;
+
+function partsOf(path: Path): PropertyKey[] {
+  const parts: PropertyKey[] = [];
+  for (let node = path; node !== undefined; node = node.parent) parts.unshift(node.part);
+  return parts;
+}
+
+/**
+ * The message has no path: property names belong to the value and can be data (an object keyed
+ * by email address). The path is in `issues`, like a schema's.
+ */
+function fail(message: string, path: Path): never {
+  throw new StorageError('UNSERIALIZABLE', message, { issues: [{ message, path: partsOf(path) }] });
 }
 
 function isPlainObject(value: object): value is Record<string, unknown> {
@@ -45,7 +60,7 @@ function encodeNumber(value: number): unknown {
   return value;
 }
 
-function encodeNode(value: unknown, path: string, depth: number, seen: Set<object>): unknown {
+function encodeNode(value: unknown, path: Path, depth: number, seen: Set<object>): unknown {
   switch (typeof value) {
     case 'string':
     case 'boolean':
@@ -72,11 +87,11 @@ function encodeNode(value: unknown, path: string, depth: number, seen: Set<objec
   }
 }
 
-function encodeObject(object: object, path: string, depth: number, seen: Set<object>): unknown {
+function encodeObject(object: object, path: Path, depth: number, seen: Set<object>): unknown {
   if (Array.isArray(object)) {
     const items: unknown[] = [];
     for (let index = 0; index < object.length; index += 1) {
-      items.push(encodeNode(object[index], `${path}[${index}]`, depth, seen));
+      items.push(encodeNode(object[index], { parent: path, part: index }, depth, seen));
     }
     return items;
   }
@@ -86,11 +101,13 @@ function encodeObject(object: object, path: string, depth: number, seen: Set<obj
   }
   if (object instanceof Map) {
     const entries: unknown[] = [];
+    let index = 0;
     for (const [key, entry] of object) {
       entries.push([
-        encodeNode(key, `${path}${MAP_KEY_PATH}`, depth, seen),
-        encodeNode(entry, `${path}[${MAP_KEY_PATH}]`, depth, seen),
+        encodeNode(key, { parent: path, part: `<map key ${index}>` }, depth, seen),
+        encodeNode(entry, { parent: path, part: `<map value ${index}>` }, depth, seen),
       ]);
+      index += 1;
     }
     return { [TAG]: 'map', v: entries };
   }
@@ -98,7 +115,7 @@ function encodeObject(object: object, path: string, depth: number, seen: Set<obj
     const items: unknown[] = [];
     let index = 0;
     for (const item of object) {
-      items.push(encodeNode(item, `${path}<set item ${index}>`, depth, seen));
+      items.push(encodeNode(item, { parent: path, part: `<set item ${index}>` }, depth, seen));
       index += 1;
     }
     return { [TAG]: 'set', v: items };
@@ -109,7 +126,7 @@ function encodeObject(object: object, path: string, depth: number, seen: Set<obj
   }
   const result: Record<string, unknown> = {};
   for (const key of Object.keys(object)) {
-    defineOwn(result, key, encodeNode(object[key], path ? `${path}.${key}` : key, depth, seen));
+    defineOwn(result, key, encodeNode(object[key], { parent: path, part: key }, depth, seen));
   }
   // A user object that happens to own the tag key is wrapped, so it is never read as a tag.
   return Object.hasOwn(object, TAG) ? { [TAG]: 'obj', v: result } : result;
@@ -127,7 +144,7 @@ function defineOwn(target: Record<string, unknown>, key: string, value: unknown)
 
 /** Converts a value into JSON-compatible data. Throws `UNSERIALIZABLE` for anything else. */
 export function encodeValue(value: unknown): unknown {
-  return encodeNode(value, '', 0, new Set());
+  return encodeNode(value, undefined, 0, new Set());
 }
 
 function corrupt(message: string): never {

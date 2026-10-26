@@ -1,4 +1,4 @@
-<!-- i18n-source: README.md@f64eb29021b63ba1b4ae1313e04c15e34cf1042a status=reviewed -->
+<!-- i18n-source: README.md@fd2285193b6401028dfb4805475e58e494f53d96 status=reviewed -->
 <!-- brand:start -->
 
 <p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/ReactNativeStorage/main/.github/brand/banner-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/ReactNativeStorage/main/.github/brand/banner-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/ReactNativeStorage/main/.github/brand/banner-light.svg" alt="React Native Storage: Typed, validated key-value storage for React Native and Expo on MMKV, AsyncStorage or SecureStore."></picture></p>
@@ -33,7 +33,7 @@ React Native と Expo アプリで、アプリのデータを端末に保存す�
 - **アプリのアップデートを越えて残るデータ** — すべてのレコードにスキーマバージョンが付きます。migration が古いレコードを段階的にアップグレードし、`legacy` リーダーがこのライブラリ導入前に書き込まれた値を引き継ぎ、より新しいバージョンのアプリが書いたレコードには手を加えません。
 - **有効期限** — アイテムごと、または書き込みごとの time to live を設定できます。期限切れの値を表示しているコンポーネントは、期限が切れた瞬間にデフォルト値へ戻ります。
 - **アプリをクラッシュさせない失敗処理** — 壊れた、または無効な保存データはデフォルト値を返し、`onError` に通知されます。エラーメッセージに含まれるのはキーのみで、値は含まれません。
-- **テスト済み** — 159 個の Vitest テストが、codec、検証、migration、TTL、同時書き込みの順序、すべての driver、hook、ヘルパーをカバーします。サンプルアプリは [`scripts/e2e-ios.sh`](scripts/e2e-ios.sh) により、iOS 27 シミュレータ上で本物の MMKV と Keychain を使って動作確認されています。
+- **テスト済み** — 163 個の Vitest テストが、codec、検証、migration、TTL、同時書き込みの順序、すべての driver、hook、ヘルパーをカバーします。サンプルアプリは [`scripts/e2e-ios.sh`](scripts/e2e-ios.sh) により、iOS 27 シミュレータ上で本物の MMKV と Keychain を使って動作確認されています。
 
 ## クイックスタート
 

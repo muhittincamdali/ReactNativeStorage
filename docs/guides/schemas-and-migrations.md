@@ -34,8 +34,10 @@ The schema runs twice:
   library, or edited on a rooted device. An invalid stored value gives the default value, the
   snapshot reports `status: 'error'`, and `onError` receives the error once.
 
-Error messages contain the key and the path of the first issue (`at fontSize`), never the value.
-Schema messages can quote the value, so they are in `error.issues`, which you can log on purpose.
+Error messages contain the key and the reason, never the value or its property names, which can
+be data too (a record keyed by email address). Where the problem is (`issues[0].path`, for example
+`['fontSize']`) and the schema's own messages, which can quote the value, are in `error.issues`,
+which you can log on purpose.
 
 Schemas must be synchronous. A Zod schema with an `async` refinement is refused with
 `INVALID_OPTION`, because hooks read values during rendering.

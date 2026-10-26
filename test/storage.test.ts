@@ -176,9 +176,18 @@ describe('schemas', () => {
     expect(value?.name).toBe('Ada');
     const error = await rejection(user.set({ id: 1.5, name: 'Ada' }));
     expect(error.code).toBe('VALIDATION_FAILED');
-    expect(error.message).toContain('at id');
-    expect(error.issues?.length).toBeGreaterThan(0);
+    expect(error.message).toBe('The value for "user" is invalid');
+    expect(error.issues?.[0]?.path).toEqual(['id']);
     expect(await user.get()).toEqual({ id: 1, name: 'Ada' });
+  });
+
+  it('keeps record keys, which are data, out of the message', async () => {
+    const scores = createStorage({ driver: memoryDriver() }).item('scores', {
+      schema: z.record(z.string(), z.number()),
+    });
+    const error = await rejection(scores.set({ 'user@x.com': Number.NaN }));
+    expect(error.message).toBe('The value for "scores" is invalid');
+    expect(error.issues?.[0]?.path).toEqual(['user@x.com']);
   });
 
   it('works with Valibot and with a type guard', async () => {

@@ -95,6 +95,6 @@ to install when the runtime has none.
 
 ## What errors contain
 
-`StorageError` messages name the key and the reason, never the value, so they are safe to send to
-crash reporting. A schema's own messages can quote the value; they are kept apart in
-`error.issues`. The `cause` of a `DRIVER_ERROR` is the native module's error, unchanged.
+`StorageError` messages name the key and the reason, never the value or its property names, so
+they are safe to send to crash reporting. Where in the value a problem is, and a schema's own
+messages, which can quote the value, are kept apart in `error.issues`. The `cause` of a `DRIVER_ERROR` is the native module's error, unchanged.

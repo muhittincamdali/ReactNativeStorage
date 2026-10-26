@@ -37,14 +37,6 @@ export type InferSchema<S> =
 /** Returns the (possibly transformed) value or throws `VALIDATION_FAILED`. */
 export type Validate<T> = (value: unknown, key: string) => T;
 
-function describePath(issue: ValidationIssue | undefined): string {
-  if (!issue?.path || issue.path.length === 0) return '';
-  const parts = issue.path.map((part) =>
-    typeof part === 'object' && part !== null ? String(part.key) : String(part),
-  );
-  return ` at ${parts.join('.')}`;
-}
-
 function isPromiseLike(value: unknown): value is PromiseLike<unknown> {
   return (
     value !== null &&
@@ -78,10 +70,9 @@ export function toValidator<T>(schema: Schema<T> | undefined): Validate<T> {
     }
     const settled = result as StandardSchemaResult<T>;
     if (settled.issues === undefined) return settled.value;
-    throw new StorageError(
-      'VALIDATION_FAILED',
-      `The value for "${key}" is invalid${describePath(settled.issues[0])}`,
-      { key, issues: settled.issues },
-    );
+    throw new StorageError('VALIDATION_FAILED', `The value for "${key}" is invalid`, {
+      key,
+      issues: settled.issues,
+    });
   };
 }

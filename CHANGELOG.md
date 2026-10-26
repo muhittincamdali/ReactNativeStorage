@@ -34,8 +34,9 @@ values. Nothing from the 1.x API is kept.
 
 ### Security
 
-- Error messages name the key and the reason, never the stored value; schema messages, which
-  may quote the value, are kept in `error.issues`.
+- Error messages name the key and the reason, never the stored value or its property names;
+  where the problem is and schema messages, which may quote the value, are kept in
+  `error.issues`.
 - Limits at every boundary: keys (1–512 characters, no control characters), namespaces, value
   size in UTF-8 bytes (1 MiB by default, 2048 bytes for SecureStore), nesting depth (64),
   schema versions (up to 10,000), `bigint` digits (4,096), TTLs and clocks (finite, safe

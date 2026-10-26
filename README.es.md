@@ -1,4 +1,4 @@
-<!-- i18n-source: README.md@f64eb29021b63ba1b4ae1313e04c15e34cf1042a status=reviewed -->
+<!-- i18n-source: README.md@fd2285193b6401028dfb4805475e58e494f53d96 status=reviewed -->
 <!-- brand:start -->
 
 <p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/ReactNativeStorage/main/.github/brand/banner-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/ReactNativeStorage/main/.github/brand/banner-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/ReactNativeStorage/main/.github/brand/banner-light.svg" alt="React Native Storage: Typed, validated key-value storage for React Native and Expo on MMKV, AsyncStorage or SecureStore."></picture></p>
@@ -33,7 +33,7 @@ Una librería de TypeScript para guardar los datos de la app en el dispositivo e
 - **Datos que sobreviven a las actualizaciones de la app** — cada registro lleva una versión de esquema; las migrations actualizan los registros antiguos paso a paso, un lector `legacy` adopta los valores escritos antes de esta librería y los registros de una versión más reciente de la app no se tocan.
 - **Caducidad** — un time to live por elemento o por escritura; un componente que muestra un valor caducado vuelve al valor por defecto en el momento en que caduca.
 - **Fallos que no hacen caer la app** — los datos guardados corruptos o no válidos devuelven el valor por defecto y llegan a `onError`; los mensajes de error nombran la clave, nunca el valor.
-- **Probado** — 159 tests de Vitest cubren el codec, la validación, las migrations, el TTL, el orden de las escrituras concurrentes, cada driver, el hook y los helpers; la app de ejemplo se ejecuta en un simulador de iOS 27 con el MMKV y el Keychain reales en [`scripts/e2e-ios.sh`](scripts/e2e-ios.sh).
+- **Probado** — 163 tests de Vitest cubren el codec, la validación, las migrations, el TTL, el orden de las escrituras concurrentes, cada driver, el hook y los helpers; la app de ejemplo se ejecuta en un simulador de iOS 27 con el MMKV y el Keychain reales en [`scripts/e2e-ios.sh`](scripts/e2e-ios.sh).
 
 ## Inicio rápido
 

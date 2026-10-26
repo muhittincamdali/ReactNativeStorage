@@ -1,4 +1,4 @@
-<!-- i18n-source: README.md@f64eb29021b63ba1b4ae1313e04c15e34cf1042a status=reviewed -->
+<!-- i18n-source: README.md@fd2285193b6401028dfb4805475e58e494f53d96 status=reviewed -->
 <!-- brand:start -->
 
 <p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/ReactNativeStorage/main/.github/brand/banner-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/ReactNativeStorage/main/.github/brand/banner-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/ReactNativeStorage/main/.github/brand/banner-light.svg" alt="React Native Storage: Typed, validated key-value storage for React Native and Expo on MMKV, AsyncStorage or SecureStore."></picture></p>
@@ -46,7 +46,7 @@ isteyen uygulamalar için tasarlanmıştır.
   bileşen, süre dolduğu anda varsayılan değere döner.
 - **Uygulamayı çökertmeyen hatalar** — bozuk ya da geçersiz saklanmış veri varsayılan değeri döndürür ve
   `onError`'a ulaşır; hata mesajları anahtarı belirtir, değeri asla.
-- **Test edilmiş** — 159 Vitest testi codec'i, doğrulamayı, migration'ları, TTL'i, eşzamanlı yazmaların
+- **Test edilmiş** — 163 Vitest testi codec'i, doğrulamayı, migration'ları, TTL'i, eşzamanlı yazmaların
   sırasını, her driver'ı, hook'u ve yardımcıları kapsar; örnek uygulama, [`scripts/e2e-ios.sh`](scripts/e2e-ios.sh)
   ile bir iOS 27 simülatöründe gerçek MMKV ve Keychain'e karşı çalışır.
 
