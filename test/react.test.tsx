@@ -124,3 +124,26 @@ describe('useStorageItem', () => {
     expect(vi.getTimerCount()).toBe(0);
   });
 });
+
+describe('useStorageItem with stored data that needs work', () => {
+  it('saves a migrated value after the first render', async () => {
+    const driver = memoryDriver([['profile', '{"rns":1,"s":1,"d":{"name":"Ada Lovelace"}}']]);
+    const profile = createStorage({ driver }).item('profile', {
+      version: 2,
+      migrations: { 2: (old) => ({ first: String((old as { name: string }).name).split(' ')[0] }) },
+    });
+    const { result } = renderHook(() => useStorageItem(profile));
+    expect(result.current[0]).toEqual({ first: 'Ada' });
+    await act(async () => undefined);
+    expect(JSON.parse(driver.data.get('profile')!)).toMatchObject({ s: 2, d: { first: 'Ada' } });
+  });
+
+  it('removes a value that expired before the component mounted', async () => {
+    const driver = memoryDriver([['otp', '{"rns":1,"s":1,"e":5,"d":"1"}']]);
+    const otp = createStorage({ driver, now: () => 10 }).item('otp');
+    const { result } = renderHook(() => useStorageItem(otp));
+    expect(result.current[0]).toBeUndefined();
+    await act(async () => undefined);
+    expect(driver.data.has('otp')).toBe(false);
+  });
+});

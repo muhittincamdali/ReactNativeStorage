@@ -36,9 +36,12 @@ export function useStorageItem<T>(
 ): [value: T, setValue: SetStorageValue<T>, state: StorageItemState] {
   const snapshot = useSyncExternalStore(item.subscribe, item.getSnapshot, item.getSnapshot);
 
+  // Reading through the item (not only the snapshot) also saves a migrated value and removes an
+  // expired one. It runs on mount and again whenever the item goes back to loading.
+  const loading = snapshot.status === 'loading';
   useEffect(() => {
-    if (snapshot.status === 'loading') void item.load();
-  }, [item, snapshot.status]);
+    void item.load();
+  }, [item, loading]);
 
   const setValue = useCallback<SetStorageValue<T>>(
     (value, options) => item.set(value, options),
