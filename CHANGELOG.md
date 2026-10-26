@@ -7,7 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-A rewrite, to be released as 2.0.0. The 1.x sources were removed: their storage backends were
+## [2.0.0] - 2026-10-26
+
+A rewrite. The 1.x sources were removed: their storage backends were
 not covered by tests, the JSI bridge only logged keys, and the `useStorage` hook logged stored
 values. Nothing from the 1.x API is kept.
 
@@ -51,7 +53,8 @@ values. Nothing from the 1.x API is kept.
 
 ## [1.0.0] - 2026-02-03
 
-First release, since removed in full; see Unreleased.
+First release, since removed in full; see 2.0.0.
 
-[Unreleased]: https://github.com/muhittincamdali/ReactNativeStorage/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/muhittincamdali/ReactNativeStorage/compare/v2.0.0...HEAD
+[2.0.0]: https://github.com/muhittincamdali/ReactNativeStorage/compare/v1.0.0...v2.0.0
 [1.0.0]: https://github.com/muhittincamdali/ReactNativeStorage/releases/tag/v1.0.0
