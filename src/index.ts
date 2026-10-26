@@ -35,3 +35,10 @@ export {
 export type { SecureStoreLike } from './drivers/secureStore';
 export { webStorageDriver } from './drivers/webStorage';
 export type { StorageEventTarget, WebStorageLike } from './drivers/webStorage';
+
+export { copyKeys } from './copyKeys';
+export type { CopyKeysOptions, CopyKeysResult } from './copyKeys';
+export { toStateStorage } from './stateStorage';
+export type { StateStorage } from './stateStorage';
+export { getOrCreateSecret, randomSecret } from './secret';
+export type { RandomBytes, SecretOptions } from './secret';
