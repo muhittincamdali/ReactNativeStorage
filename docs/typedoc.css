@@ -1,0 +1,30 @@
+/* Repository palette (.github/brand): blue accents on white, or on navy in dark mode. */
+:root {
+  --light-color-background: #ffffff;
+  --light-color-background-secondary: #f5f9ff;
+  --light-color-accent: #d0e2f7;
+  --light-color-text: #0b1f33;
+  --light-color-text-aside: #5a6b80;
+  --light-color-link: #0058d4;
+  --light-color-focus-outline: #0071e3;
+  --light-color-ts-keyword: #0058d4;
+  --light-color-ts-interface: #0071e3;
+  --light-color-ts-class: #003a85;
+  --light-color-ts-function: #0058d4;
+  --light-color-ts-type-alias: #0071e3;
+  --light-color-ts-variable: #003a85;
+
+  --dark-color-background: #0d1117;
+  --dark-color-background-secondary: #0b1626;
+  --dark-color-accent: #1c3557;
+  --dark-color-text: #e6edf3;
+  --dark-color-text-aside: #8fa3bc;
+  --dark-color-link: #64d2ff;
+  --dark-color-focus-outline: #0a84ff;
+  --dark-color-ts-keyword: #64d2ff;
+  --dark-color-ts-interface: #5ac8fa;
+  --dark-color-ts-class: #8cc4ff;
+  --dark-color-ts-function: #64d2ff;
+  --dark-color-ts-type-alias: #5ac8fa;
+  --dark-color-ts-variable: #8cc4ff;
+}

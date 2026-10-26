@@ -1,3 +1,8 @@
+/**
+ * The React hook. Import it from `react-native-storage-toolkit/react`.
+ *
+ * @module react-native-storage-toolkit/react
+ */
 import { useCallback, useEffect, useMemo, useSyncExternalStore } from 'react';
 import type { StorageError } from './errors';
 import type { SetOptions, StorageItem } from './item';

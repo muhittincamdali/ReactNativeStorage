@@ -31,7 +31,8 @@ export interface ValidationIssue {
   readonly path?: ReadonlyArray<PropertyKey | { readonly key: PropertyKey }> | undefined;
 }
 
-interface StorageErrorOptions {
+/** Extra details for a {@link StorageError}. */
+export interface StorageErrorOptions {
   key?: string | undefined;
   cause?: unknown;
   issues?: readonly ValidationIssue[];

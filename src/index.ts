@@ -1,3 +1,8 @@
+/**
+ * Storages, typed items, drivers and helpers.
+ *
+ * @module react-native-storage-toolkit
+ */
 export { createStorage, Storage } from './storage';
 export type { StorageOptions } from './storage';
 export { StorageItem } from './item';
@@ -9,8 +14,14 @@ export type {
   SetOptions,
 } from './item';
 export { StorageError, isStorageError } from './errors';
-export type { StorageErrorCode, ValidationIssue } from './errors';
-export type { Schema, StandardSchemaV1, StandardSchemaResult, TypeGuard } from './schema';
+export type { StorageErrorCode, StorageErrorOptions, ValidationIssue } from './errors';
+export type {
+  InferSchema,
+  Schema,
+  StandardSchemaV1,
+  StandardSchemaResult,
+  TypeGuard,
+} from './schema';
 export type { StorableValue } from './codec';
 export { MAX_DEPTH } from './codec';
 export {
