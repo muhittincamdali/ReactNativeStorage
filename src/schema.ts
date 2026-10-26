@@ -26,6 +26,14 @@ export type TypeGuard<T> = (value: unknown) => value is T;
 /** What an item accepts as `schema`. */
 export type Schema<T> = StandardSchemaV1<unknown, T> | TypeGuard<T>;
 
+/** The type a schema produces: the output of a Standard Schema, or the type a guard narrows to. */
+export type InferSchema<S> =
+  S extends StandardSchemaV1<unknown, infer Output>
+    ? Output
+    : S extends (value: unknown) => value is infer T
+      ? T
+      : never;
+
 /** Returns the (possibly transformed) value or throws `VALIDATION_FAILED`. */
 export type Validate<T> = (value: unknown, key: string) => T;
 

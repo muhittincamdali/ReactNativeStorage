@@ -3,6 +3,7 @@ import { peekExpiry } from './envelope';
 import { StorageError } from './errors';
 import { StorageItem, type ItemOptions, type ItemOptionsWithDefault } from './item';
 import { KeyStore } from './keyStore';
+import type { InferSchema, Schema } from './schema';
 import {
   DEFAULT_CACHE_SIZE,
   DEFAULT_MAX_VALUE_BYTES,
@@ -80,7 +81,20 @@ export class Storage {
     this.stopDriverListener = driver.subscribe?.((key) => this.store.externalChange(key));
   }
 
-  /** Declares a typed value stored under `name`. Cheap: call it once at module level. */
+  /**
+   * Declares a typed value stored under `name`. Cheap: call it once at module level.
+   *
+   * With a `schema`, the item's type is the schema's output and `defaultValue` must match it.
+   * Without one, pass the type (`storage.item<string>('token')`) or let `defaultValue` set it.
+   */
+  item<S extends Schema<unknown>>(
+    name: string,
+    options: ItemOptionsWithDefault<InferSchema<S>> & { schema: S },
+  ): StorageItem<InferSchema<S>>;
+  item<S extends Schema<unknown>>(
+    name: string,
+    options: ItemOptions<InferSchema<S>> & { schema: S },
+  ): StorageItem<InferSchema<S> | undefined>;
   item<T>(name: string, options: ItemOptionsWithDefault<T>): StorageItem<T>;
   item<T>(name: string, options?: ItemOptions<T>): StorageItem<T | undefined>;
   item<T>(name: string, options: ItemOptions<T> = {}): StorageItem<T | undefined> {
