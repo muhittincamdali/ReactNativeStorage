@@ -1,4 +1,4 @@
-<!-- i18n-source: README.md@0e2a31d7dd488f1ed9a4008e59f99d1d28f823f5 status=reviewed -->
+<!-- i18n-source: README.md@f64eb29021b63ba1b4ae1313e04c15e34cf1042a status=reviewed -->
 <!-- brand:start -->
 
 <p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/ReactNativeStorage/main/.github/brand/banner-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/ReactNativeStorage/main/.github/brand/banner-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/ReactNativeStorage/main/.github/brand/banner-light.svg" alt="React Native Storage: Typed, validated key-value storage for React Native and Expo on MMKV, AsyncStorage or SecureStore."></picture></p>
@@ -46,7 +46,7 @@ isteyen uygulamalar için tasarlanmıştır.
   bileşen, süre dolduğu anda varsayılan değere döner.
 - **Uygulamayı çökertmeyen hatalar** — bozuk ya da geçersiz saklanmış veri varsayılan değeri döndürür ve
   `onError`'a ulaşır; hata mesajları anahtarı belirtir, değeri asla.
-- **Test edilmiş** — 151 Vitest testi codec'i, doğrulamayı, migration'ları, TTL'i, eşzamanlı yazmaların
+- **Test edilmiş** — 159 Vitest testi codec'i, doğrulamayı, migration'ları, TTL'i, eşzamanlı yazmaların
   sırasını, her driver'ı, hook'u ve yardımcıları kapsar; örnek uygulama, [`scripts/e2e-ios.sh`](scripts/e2e-ios.sh)
   ile bir iOS 27 simülatöründe gerçek MMKV ve Keychain'e karşı çalışır.
 
@@ -195,7 +195,7 @@ export const refreshToken = secure.item('refresh-token', { schema: z.string() })
 ```
 
 `getOrCreateSecret(item)` rastgele bir anahtarı bir kez oluşturur ve sonrasında onu döndürür; örneğin bir MMKV
-örneğini şifrelemek için. Bkz. [Token ve anahtarları güvende tutun](docs/guides/secure-values.md).
+örneğini şifrelemek için. Bkz. [Token ve anahtarları güvende tutun](docs/guides/secure-values.md). Okuyamadığı kayıtlı bir değerin üzerine asla yazmaz: bozuk, geçersiz ya da süresi dolmuş veri `StorageError` ile reddedilir ve olduğu gibi kalır.
 
 ### Bir Zustand store'unu kalıcı kılın
 

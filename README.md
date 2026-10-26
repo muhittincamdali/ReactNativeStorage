@@ -44,7 +44,7 @@ upgradable across app versions.
   back to the default at the moment it expires.
 - **Failures that do not crash the app** — corrupt or invalid stored data returns the default
   value and reaches `onError`; error messages name the key, never the value.
-- **Tested** — 151 Vitest tests cover the codec, validation, migrations, TTL, ordering of
+- **Tested** — 159 Vitest tests cover the codec, validation, migrations, TTL, ordering of
   concurrent writes, every driver, the hook and the helpers; the example app runs on an iOS 27
   simulator against the real MMKV and Keychain in [`scripts/e2e-ios.sh`](scripts/e2e-ios.sh).
 
@@ -193,7 +193,9 @@ export const refreshToken = secure.item('refresh-token', { schema: z.string() })
 ```
 
 `getOrCreateSecret(item)` creates a random key once and returns it afterwards, for example to
-encrypt an MMKV instance; see [Keep tokens and keys secure](docs/guides/secure-values.md).
+encrypt an MMKV instance. It never overwrites a stored value it cannot use: corrupt, invalid or
+expired data rejects with a `StorageError` and stays in place. See
+[Keep tokens and keys secure](docs/guides/secure-values.md).
 
 ### Persist a Zustand store
 

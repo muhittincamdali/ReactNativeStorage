@@ -11,6 +11,8 @@
  *   accepted it.
  * - `INCOMPATIBLE_VERSION`: the stored record was written by a newer schema version, or a
  *   migration step is missing.
+ * - `EXPIRED`: `getOrCreateSecret` found a stored secret whose lifetime has passed; it is left
+ *   in place rather than replaced.
  * - `UNSUPPORTED`: the driver cannot do this, for example list keys.
  * - `DRIVER_ERROR`: the underlying storage threw; the original error is in `cause`.
  */
@@ -22,6 +24,7 @@ export type StorageErrorCode =
   | 'VALIDATION_FAILED'
   | 'CORRUPT_DATA'
   | 'INCOMPATIBLE_VERSION'
+  | 'EXPIRED'
   | 'UNSUPPORTED'
   | 'DRIVER_ERROR';
 

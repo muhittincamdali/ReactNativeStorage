@@ -1,4 +1,5 @@
 import { StorageError } from './errors';
+import type { StorageDriver } from './driver';
 import type { KeyStore } from './keyStore';
 import { RecordFormat, type Decoded, type Migration } from './record';
 import type { Schema } from './schema';
@@ -24,6 +25,12 @@ export interface ItemOptions<T> {
    */
   legacy?: (raw: string) => unknown;
 }
+
+/** What `readStored` found: the decoded record, with no fallback to the default value. */
+export type StoredValue<T> =
+  | { kind: 'missing' }
+  | { kind: 'value'; value: T; expired: boolean }
+  | { kind: 'error'; error: StorageError };
 
 export type ItemOptionsWithDefault<T> = ItemOptions<T> & { defaultValue: T };
 
@@ -109,6 +116,27 @@ export class StorageItem<T> {
       await this.cleanUp(raw, () => this.format.encode(decoded.value, decoded.expiresAt));
     }
     return decoded.value;
+  }
+
+  /**
+   * Reads what is stored without falling back to the default value and without removing or
+   * rewriting anything, for callers that must tell an empty slot from data they cannot use.
+   * @internal
+   */
+  async readStored(): Promise<StoredValue<T>> {
+    const raw = await this.store.read(this.key);
+    const decoded = this.format.decode(raw);
+    if (decoded.kind !== 'value') return decoded;
+    const expired = decoded.expiresAt !== undefined && decoded.expiresAt <= this.storage.now();
+    return { kind: 'value', value: decoded.value, expired };
+  }
+
+  /**
+   * The driver behind this item. Items of different storages can share one.
+   * @internal
+   */
+  get driver(): StorageDriver {
+    return this.store.driver;
   }
 
   /**

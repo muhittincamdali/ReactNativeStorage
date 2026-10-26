@@ -42,6 +42,9 @@ values. Nothing from the 1.x API is kept.
   integers), timer delays (at most 2^31-1 ms) and the cache (500 unwatched keys by default).
   Stored text longer than the limit is not parsed.
 - Decoding defines `__proto__` as an own property, so stored data cannot change a prototype.
+- `getOrCreateSecret` writes a new secret only when nothing is stored. Corrupt, invalid,
+  non-string, empty or expired data rejects (`EXPIRED` for an expired one) and is left in place,
+  and concurrent calls for one driver key share one read and one write.
 - `randomSecret` draws characters without modulo bias and stops after 64 batches of a random
   source that returns no usable bytes.
 

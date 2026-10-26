@@ -50,8 +50,20 @@ Things to know about this driver:
 
 MMKV can encrypt its file. The key has to live somewhere safer than the file itself.
 `getOrCreateSecret` returns the key stored in a SecureStore item or creates a random one the first
-time. Concurrent calls share the first call, so two screens starting at once cannot create two
-different keys.
+time. Concurrent calls for one key share the first call, also through two items declared for
+that key, so two screens starting at once cannot create two different keys.
+
+A new key is written only when nothing is stored. `getOrCreateSecret` never overwrites a stored
+value it cannot use, because everything encrypted with the old key would become unreadable:
+
+- an unreadable or invalid record rejects with its read error (`CORRUPT_DATA`,
+  `VALIDATION_FAILED` or `INCOMPATIBLE_VERSION`);
+- a stored value that is not a non-empty string rejects with `CORRUPT_DATA`;
+- an expired value rejects with `EXPIRED`, so give the item no `ttl`;
+- a failing read rejects with `DRIVER_ERROR`.
+
+The stored text stays as it is in every case. Deciding what happens next is left to the app:
+call `mmkvKey.remove()` and open the storage again only when the encrypted data may be lost.
 
 ```sh
 npx expo install expo-crypto

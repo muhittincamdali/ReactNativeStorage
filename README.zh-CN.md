@@ -1,4 +1,4 @@
-<!-- i18n-source: README.md@0e2a31d7dd488f1ed9a4008e59f99d1d28f823f5 status=reviewed -->
+<!-- i18n-source: README.md@f64eb29021b63ba1b4ae1313e04c15e34cf1042a status=reviewed -->
 <!-- brand:start -->
 
 <p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/ReactNativeStorage/main/.github/brand/banner-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/ReactNativeStorage/main/.github/brand/banner-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/ReactNativeStorage/main/.github/brand/banner-light.svg" alt="React Native Storage: Typed, validated key-value storage for React Native and Expo on MMKV, AsyncStorage or SecureStore."></picture></p>
@@ -33,7 +33,7 @@
 - **数据在应用更新后依然可用** — 每条记录都带有 schema 版本；migration 会逐步升级旧记录，`legacy` 读取器会接管在使用本库之前写入的值，来自更新版本应用的记录则保持不变。
 - **过期** — 可按条目或按单次写入设置 time to live；显示已过期值的组件会在过期的那一刻回退到默认值。
 - **失败不会让应用崩溃** — 已存储的数据若损坏或无效，会返回默认值并触发 `onError`；错误信息只会指出键，绝不包含值。
-- **经过测试** — 151 个 Vitest 测试覆盖 codec、校验、migration、TTL、并发写入的顺序、每个 driver、hook 和辅助函数；示例应用通过 [`scripts/e2e-ios.sh`](scripts/e2e-ios.sh) 在 iOS 27 模拟器上针对真实的 MMKV 和 Keychain 运行。
+- **经过测试** — 159 个 Vitest 测试覆盖 codec、校验、migration、TTL、并发写入的顺序、每个 driver、hook 和辅助函数；示例应用通过 [`scripts/e2e-ios.sh`](scripts/e2e-ios.sh) 在 iOS 27 模拟器上针对真实的 MMKV 和 Keychain 运行。
 
 ## 快速开始
 
@@ -171,7 +171,7 @@ const secure = createStorage({
 export const refreshToken = secure.item('refresh-token', { schema: z.string() });
 ```
 
-`getOrCreateSecret(item)` 只会创建一次随机密钥，之后直接返回它，例如用来加密 MMKV 实例；参见[妥善保管 token 和密钥](docs/guides/secure-values.md)。
+`getOrCreateSecret(item)` 只会创建一次随机密钥，之后直接返回它，例如用来加密 MMKV 实例；参见[妥善保管 token 和密钥](docs/guides/secure-values.md)。它绝不会覆盖无法使用的已存值：损坏、无效或已过期的数据会以 `StorageError` 拒绝，并保持原样。
 
 ### 持久化 Zustand store
 

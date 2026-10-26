@@ -8,6 +8,7 @@ import {
   memoryDriver,
   randomSecret,
   toStateStorage,
+  type StorageItem,
 } from '../src/index';
 import { manualDriver, settle } from './helpers';
 
@@ -78,6 +79,91 @@ describe('getOrCreateSecret', () => {
     const item = createStorage({ driver: memoryDriver() }).item<string>('k');
     await item.set('existing-secret');
     expect(await getOrCreateSecret(item)).toBe('existing-secret');
+  });
+
+  it('creates and writes a secret once when the key is empty', async () => {
+    const driver = memoryDriver();
+    const setItem = vi.spyOn(driver, 'setItem');
+    const item = createStorage({ driver }).item<string>('k');
+    const secret = await getOrCreateSecret(item);
+    expect(await getOrCreateSecret(item)).toBe(secret);
+    expect(setItem).toHaveBeenCalledTimes(1);
+  });
+
+  it('gives 20 concurrent calls, through separate items, one secret and one write', async () => {
+    const driver = memoryDriver();
+    const setItem = vi.spyOn(driver, 'setItem');
+    const storage = createStorage({ driver, namespace: 'app' });
+    const other = createStorage({ driver, namespace: 'app' });
+    const secrets = await Promise.all(
+      Array.from({ length: 20 }, (_, index) =>
+        getOrCreateSecret((index % 2 === 0 ? storage : other).item<string>('db-key')),
+      ),
+    );
+    expect(new Set(secrets).size).toBe(1);
+    expect(setItem).toHaveBeenCalledTimes(1);
+    expect(await storage.item<string>('db-key').get()).toBe(secrets[0]);
+  });
+
+  async function expectKept(
+    raw: string,
+    code: string,
+    declare: (storage: ReturnType<typeof createStorage>) => StorageItem<string | undefined> = (
+      storage,
+    ) => storage.item<string>('k'),
+  ) {
+    const driver = memoryDriver([['k', raw]]);
+    const setItem = vi.spyOn(driver, 'setItem');
+    const item = declare(createStorage({ driver }));
+    await expect(getOrCreateSecret(item)).rejects.toMatchObject({ code, key: 'k' });
+    expect(setItem).not.toHaveBeenCalled();
+    expect(driver.data.get('k')).toBe(raw);
+  }
+
+  it('rejects and keeps a corrupt record', async () => {
+    await expectKept('{corrupt', 'CORRUPT_DATA');
+  });
+
+  it('rejects and keeps text this library did not write', async () => {
+    await expectKept('plain-text-key', 'CORRUPT_DATA');
+  });
+
+  it('rejects and keeps a stored value that is not a non-empty string', async () => {
+    await expectKept('{"rns":1,"s":1,"d":42}', 'CORRUPT_DATA');
+    await expectKept('{"rns":1,"s":1,"d":""}', 'CORRUPT_DATA');
+  });
+
+  it('rejects and keeps a value its schema refuses or a newer version wrote', async () => {
+    const hex = (value: unknown): value is string =>
+      typeof value === 'string' && /^[0-9a-f]+$/.test(value);
+    await expectKept('{"rns":1,"s":1,"d":"not-hex"}', 'VALIDATION_FAILED', (storage) =>
+      storage.item('k', { schema: hex }),
+    );
+    await expectKept('{"rns":1,"s":2,"d":"abc"}', 'INCOMPATIBLE_VERSION');
+  });
+
+  it('rejects and keeps an expired secret instead of replacing it', async () => {
+    let now = 1_000;
+    const driver = memoryDriver();
+    const item = createStorage({ driver, now: () => now }).item<string>('k', { ttl: 60_000 });
+    const secret = await getOrCreateSecret(item);
+    const raw = driver.data.get('k');
+    now += 60_000;
+    const error: unknown = await getOrCreateSecret(item).catch((caught: unknown) => caught);
+    expect(error).toMatchObject({ code: 'EXPIRED', key: 'k' });
+    expect((error as Error).message).not.toContain(secret);
+    expect(driver.data.get('k')).toBe(raw);
+  });
+
+  it('writes nothing when the driver cannot be read', async () => {
+    const driver = memoryDriver();
+    driver.getItem = () => {
+      throw new Error('keychain locked');
+    };
+    const setItem = vi.spyOn(driver, 'setItem');
+    const item = createStorage({ driver }).item<string>('k');
+    await expect(getOrCreateSecret(item)).rejects.toMatchObject({ code: 'DRIVER_ERROR' });
+    expect(setItem).not.toHaveBeenCalled();
   });
 });
 

@@ -52,30 +52,63 @@ export function randomSecret(options: SecretOptions = {}): string {
   return secret;
 }
 
-const inFlight = new WeakMap<object, Promise<string>>();
+/** Running calls per driver and full key, so items declared twice still share one call. */
+const inFlight = new WeakMap<object, Map<string, Promise<string>>>();
+
+async function readOrCreate(
+  item: StorageItem<string | undefined>,
+  options: SecretOptions,
+): Promise<string> {
+  const stored = await item.readStored();
+  if (stored.kind === 'missing') {
+    const secret = randomSecret(options);
+    await item.set(secret);
+    return secret;
+  }
+  if (stored.kind === 'error') throw stored.error;
+  if (stored.expired) {
+    throw new StorageError(
+      'EXPIRED',
+      `The secret "${item.name}" has expired; it is kept, remove it to create a new one`,
+      { key: item.name },
+    );
+  }
+  if (typeof stored.value !== 'string' || stored.value.length === 0) {
+    throw new StorageError('CORRUPT_DATA', `The secret "${item.name}" is not a non-empty string`, {
+      key: item.name,
+    });
+  }
+  return stored.value;
+}
 
 /**
- * Returns the secret stored in `item`, creating and saving a random one the first time. Use it
- * with a SecureStore-backed item to keep, for example, the encryption key of an MMKV instance.
- * Calls made while the first one is still running share its result, so two parts of the app
+ * Returns the secret stored in `item`, creating and saving a random one when nothing is stored.
+ * Use it with a SecureStore-backed item to keep, for example, the encryption key of an MMKV
+ * instance.
+ *
+ * A new secret is written only when the key is empty. Anything else stored there is never
+ * overwritten: unreadable or invalid data rejects with its read error (`CORRUPT_DATA`,
+ * `VALIDATION_FAILED`, `INCOMPATIBLE_VERSION`, `DRIVER_ERROR`), a stored value that is not a
+ * non-empty string with `CORRUPT_DATA`, and an expired one with `EXPIRED`. Calls made while
+ * another call for the same driver and key is running share its result, so two parts of the app
  * starting at once never end up with different keys.
  */
 export function getOrCreateSecret(
   item: StorageItem<string | undefined>,
   options: SecretOptions = {},
 ): Promise<string> {
-  const running = inFlight.get(item);
-  if (running) return running;
-  const task = (async () => {
-    const existing = await item.get();
-    if (typeof existing === 'string' && existing.length > 0) return existing;
-    const secret = randomSecret(options);
-    await item.set(secret);
-    return secret;
-  })();
-  inFlight.set(item, task);
+  let running = inFlight.get(item.driver);
+  if (!running) {
+    running = new Map();
+    inFlight.set(item.driver, running);
+  }
+  const calls = running;
+  const existing = calls.get(item.key);
+  if (existing) return existing;
+  const task = readOrCreate(item, options);
+  calls.set(item.key, task);
   const forget = () => {
-    if (inFlight.get(item) === task) inFlight.delete(item);
+    if (calls.get(item.key) === task) calls.delete(item.key);
   };
   task.then(forget, forget);
   return task;

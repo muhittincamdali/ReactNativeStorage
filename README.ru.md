@@ -1,4 +1,4 @@
-<!-- i18n-source: README.md@0e2a31d7dd488f1ed9a4008e59f99d1d28f823f5 status=reviewed -->
+<!-- i18n-source: README.md@f64eb29021b63ba1b4ae1313e04c15e34cf1042a status=reviewed -->
 <!-- brand:start -->
 
 <p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/ReactNativeStorage/main/.github/brand/banner-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/ReactNativeStorage/main/.github/brand/banner-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/ReactNativeStorage/main/.github/brand/banner-light.svg" alt="React Native Storage: Typed, validated key-value storage for React Native and Expo on MMKV, AsyncStorage or SecureStore."></picture></p>
@@ -33,7 +33,7 @@
 - **Данные, которые переживают обновления приложения** — каждая запись содержит версию схемы; migration шаг за шагом обновляют старые записи, читатель `legacy` подхватывает значения, записанные до появления этой библиотеки, а записи более новой версии приложения остаются нетронутыми.
 - **Срок действия** — time to live для элемента или для отдельной записи; компонент, показывающий просроченное значение, возвращается к значению по умолчанию в момент истечения срока.
 - **Ошибки, не роняющие приложение** — повреждённые или недопустимые сохранённые данные возвращают значение по умолчанию и попадают в `onError`; в сообщениях об ошибках указан ключ, но никогда не значение.
-- **Протестировано** — 151 тест Vitest покрывает codec, проверку, migration, TTL, порядок параллельных записей, каждый driver, hook и вспомогательные функции; пример приложения запускается на симуляторе iOS 27 с настоящими MMKV и Keychain в [`scripts/e2e-ios.sh`](scripts/e2e-ios.sh).
+- **Протестировано** — 159 тестов Vitest покрывают codec, проверку, migration, TTL, порядок параллельных записей, каждый driver, hook и вспомогательные функции; пример приложения запускается на симуляторе iOS 27 с настоящими MMKV и Keychain в [`scripts/e2e-ios.sh`](scripts/e2e-ios.sh).
 
 ## Быстрый старт
 
@@ -171,7 +171,7 @@ const secure = createStorage({
 export const refreshToken = secure.item('refresh-token', { schema: z.string() });
 ```
 
-`getOrCreateSecret(item)` один раз создаёт случайный ключ и затем возвращает его — например, чтобы зашифровать экземпляр MMKV; см. [Безопасное хранение токенов и ключей](docs/guides/secure-values.md).
+`getOrCreateSecret(item)` один раз создаёт случайный ключ и затем возвращает его — например, чтобы зашифровать экземпляр MMKV; см. [Безопасное хранение токенов и ключей](docs/guides/secure-values.md). Она никогда не перезаписывает сохранённое значение, которое не может использовать: повреждённые, недопустимые или просроченные данные отклоняются с `StorageError` и остаются на месте.
 
 ### Сохранение store Zustand
 

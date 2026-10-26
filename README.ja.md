@@ -1,4 +1,4 @@
-<!-- i18n-source: README.md@0e2a31d7dd488f1ed9a4008e59f99d1d28f823f5 status=reviewed -->
+<!-- i18n-source: README.md@f64eb29021b63ba1b4ae1313e04c15e34cf1042a status=reviewed -->
 <!-- brand:start -->
 
 <p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/ReactNativeStorage/main/.github/brand/banner-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/ReactNativeStorage/main/.github/brand/banner-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/ReactNativeStorage/main/.github/brand/banner-light.svg" alt="React Native Storage: Typed, validated key-value storage for React Native and Expo on MMKV, AsyncStorage or SecureStore."></picture></p>
@@ -33,7 +33,7 @@ React Native と Expo アプリで、アプリのデータを端末に保存す�
 - **アプリのアップデートを越えて残るデータ** — すべてのレコードにスキーマバージョンが付きます。migration が古いレコードを段階的にアップグレードし、`legacy` リーダーがこのライブラリ導入前に書き込まれた値を引き継ぎ、より新しいバージョンのアプリが書いたレコードには手を加えません。
 - **有効期限** — アイテムごと、または書き込みごとの time to live を設定できます。期限切れの値を表示しているコンポーネントは、期限が切れた瞬間にデフォルト値へ戻ります。
 - **アプリをクラッシュさせない失敗処理** — 壊れた、または無効な保存データはデフォルト値を返し、`onError` に通知されます。エラーメッセージに含まれるのはキーのみで、値は含まれません。
-- **テスト済み** — 151 個の Vitest テストが、codec、検証、migration、TTL、同時書き込みの順序、すべての driver、hook、ヘルパーをカバーします。サンプルアプリは [`scripts/e2e-ios.sh`](scripts/e2e-ios.sh) により、iOS 27 シミュレータ上で本物の MMKV と Keychain を使って動作確認されています。
+- **テスト済み** — 159 個の Vitest テストが、codec、検証、migration、TTL、同時書き込みの順序、すべての driver、hook、ヘルパーをカバーします。サンプルアプリは [`scripts/e2e-ios.sh`](scripts/e2e-ios.sh) により、iOS 27 シミュレータ上で本物の MMKV と Keychain を使って動作確認されています。
 
 ## クイックスタート
 
@@ -171,7 +171,7 @@ const secure = createStorage({
 export const refreshToken = secure.item('refresh-token', { schema: z.string() });
 ```
 
-`getOrCreateSecret(item)` はランダムなキーを一度だけ作成し、以降はそれを返します。たとえば MMKV インスタンスの暗号化に使えます。詳しくは[トークンとキーを安全に保つ](docs/guides/secure-values.md)を参照してください。
+`getOrCreateSecret(item)` はランダムなキーを一度だけ作成し、以降はそれを返します。たとえば MMKV インスタンスの暗号化に使えます。詳しくは[トークンとキーを安全に保つ](docs/guides/secure-values.md)を参照してください。使えない保存済みの値を上書きすることはありません。破損した値、無効な値、期限切れの値は `StorageError` で拒否され、そのまま残ります。
 
 ### Zustand ストアを永続化する
 

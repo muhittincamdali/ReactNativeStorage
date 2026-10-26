@@ -1,4 +1,4 @@
-<!-- i18n-source: README.md@0e2a31d7dd488f1ed9a4008e59f99d1d28f823f5 status=reviewed -->
+<!-- i18n-source: README.md@f64eb29021b63ba1b4ae1313e04c15e34cf1042a status=reviewed -->
 <!-- brand:start -->
 
 <p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/ReactNativeStorage/main/.github/brand/banner-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/ReactNativeStorage/main/.github/brand/banner-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/ReactNativeStorage/main/.github/brand/banner-light.svg" alt="React Native Storage: Typed, validated key-value storage for React Native and Expo on MMKV, AsyncStorage or SecureStore."></picture></p>
@@ -33,7 +33,7 @@ Eine TypeScript-Bibliothek, um App-Daten in React-Native- und Expo-Apps auf dem 
 - **Daten, die App-Updates überstehen** — jeder Datensatz trägt eine Schemaversion; Migrations aktualisieren alte Datensätze Schritt für Schritt, ein `legacy`-Reader übernimmt Werte, die vor dieser Bibliothek geschrieben wurden, und Datensätze einer neueren App-Version bleiben unangetastet.
 - **Ablauf** — eine Time to Live pro Eintrag oder pro Schreibvorgang; eine Komponente, die einen abgelaufenen Wert zeigt, fällt im Moment des Ablaufs auf den Standardwert zurück.
 - **Fehler, die die App nicht abstürzen lassen** — beschädigte oder ungültige gespeicherte Daten liefern den Standardwert und landen in `onError`; Fehlermeldungen nennen den Schlüssel, nie den Wert.
-- **Getestet** — 151 Vitest-Tests decken Codec, Validierung, Migrations, TTL, die Reihenfolge gleichzeitiger Schreibvorgänge, jeden Driver, den Hook und die Helfer ab; die Beispiel-App läuft in [`scripts/e2e-ios.sh`](scripts/e2e-ios.sh) auf einem iOS-27-Simulator gegen das echte MMKV und die echte Keychain.
+- **Getestet** — 159 Vitest-Tests decken Codec, Validierung, Migrations, TTL, die Reihenfolge gleichzeitiger Schreibvorgänge, jeden Driver, den Hook und die Helfer ab; die Beispiel-App läuft in [`scripts/e2e-ios.sh`](scripts/e2e-ios.sh) auf einem iOS-27-Simulator gegen das echte MMKV und die echte Keychain.
 
 ## Schnellstart
 
@@ -171,7 +171,7 @@ const secure = createStorage({
 export const refreshToken = secure.item('refresh-token', { schema: z.string() });
 ```
 
-`getOrCreateSecret(item)` erzeugt einmalig einen zufälligen Schlüssel und gibt ihn danach zurück, zum Beispiel um eine MMKV-Instanz zu verschlüsseln; siehe [Tokens und Schlüssel sicher aufbewahren](docs/guides/secure-values.md).
+`getOrCreateSecret(item)` erzeugt einmalig einen zufälligen Schlüssel und gibt ihn danach zurück, zum Beispiel um eine MMKV-Instanz zu verschlüsseln; siehe [Tokens und Schlüssel sicher aufbewahren](docs/guides/secure-values.md). Einen gespeicherten Wert, den sie nicht verwenden kann, überschreibt sie nie: Beschädigte, ungültige oder abgelaufene Daten führen zu einem `StorageError` und bleiben unverändert.
 
 ### Einen Zustand-Store persistieren
 
