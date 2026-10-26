@@ -9,3 +9,11 @@ Examples/*/android/
 Examples/*/dist/
 .github/brand/
 CHANGELOG.md
+# Written by the repository kit (muhittincamdali/.github); formatted there.
+.github/workflows/ci.yml
+.github/workflows/quality.yml
+.github/dependabot.yml
+.github/brand.json
+.lychee.toml
+README.md
+README.*.md

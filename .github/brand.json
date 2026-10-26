@@ -1,0 +1,47 @@
+{
+  "name": "React Native Storage",
+  "repository": "muhittincamdali/ReactNativeStorage",
+  "tagline": {
+    "en": "Typed, validated key-value storage for React Native and Expo on MMKV, AsyncStorage or SecureStore."
+  },
+  "tags": {
+    "en": [
+      "React Native",
+      "Expo",
+      "TypeScript",
+      "MMKV · SecureStore"
+    ]
+  },
+  "motif": "code",
+  "buttons": [
+    "start",
+    "docs",
+    "examples"
+  ],
+  "links": {
+    "docs": "https://muhittincamdali.github.io/ReactNativeStorage/",
+    "examples": "Examples/"
+  },
+  "languages": [
+    "en",
+    "tr",
+    "zh-CN",
+    "ja",
+    "ko",
+    "es",
+    "de",
+    "fr",
+    "pt-BR",
+    "ru"
+  ],
+  "socialTheme": "dark",
+  "extraBadges": [
+    {
+      "key": "framework",
+      "label": "React",
+      "value": "18+",
+      "icon": "react",
+      "href": "https://github.com/muhittincamdali/ReactNativeStorage/blob/main/package.json"
+    }
+  ]
+}

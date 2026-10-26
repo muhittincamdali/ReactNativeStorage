@@ -1,0 +1,21 @@
+# Type-checks the Expo example app and bundles it for iOS, Android and the web with Metro, using
+# the library from this checkout (the example depends on it as file:../..).
+name: Examples
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  storage-demo:
+    permissions:
+      contents: read
+    uses: muhittincamdali/.github/.github/workflows/node-ci.yml@59e72703c617cfab0c12482c477e706c485ed683 # v1.1.1
+    with:
+      working-directory: Examples/StorageDemo
+      node-versions: '["24"]'
+      scripts: typecheck bundle

@@ -34,9 +34,6 @@
   "files": [
     "src"
   ],
-  "engines": {
-    "node": ">=22.12"
-  },
   "scripts": {
     "typecheck": "tsc -p tsconfig.json && tsc -p tsconfig.lib.json",
     "lint": "eslint . && prettier --check .",
