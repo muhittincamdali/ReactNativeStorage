@@ -1,80 +1,63 @@
-# Contributing to SwiftRouter
+# Contributing
 
-First off, thank you for considering contributing to SwiftRouter! It's people like you that make SwiftRouter such a great tool.
+Thanks for taking the time to improve React Native Storage.
 
-## Code of Conduct
+## Reporting bugs
 
-This project and everyone participating in it is governed by our Code of Conduct. By participating, you are expected to uphold this code.
+Open an issue with:
 
-## How Can I Contribute?
+- the driver (MMKV, AsyncStorage, SecureStore, Web Storage, memory) and its package version,
+- the item options and the smallest code that shows the problem,
+- what you expected and what happened, with the `StorageError` code if there is one,
+- React Native or Expo SDK version and the platform.
 
-### Reporting Bugs
+Do not paste stored values that may be secret.
 
-Before creating bug reports, please check the existing issues as you might find out that you don't need to create one. When you are creating a bug report, please include as many details as possible:
+## Development
 
-- **Use a clear and descriptive title**
-- **Describe the exact steps which reproduce the problem**
-- **Provide specific examples to demonstrate the steps**
-- **Describe the behavior you observed after following the steps**
-- **Explain which behavior you expected to see instead and why**
-- **Include Swift version and OS version**
+You need Node.js 22.12 or later.
 
-### Suggesting Enhancements
-
-Enhancement suggestions are tracked as GitHub issues. When creating an enhancement suggestion, please include:
-
-- **Use a clear and descriptive title**
-- **Provide a step-by-step description of the suggested enhancement**
-- **Provide specific examples to demonstrate the steps**
-- **Describe the current behavior and explain which behavior you expected to see instead**
-- **Explain why this enhancement would be useful**
-
-### Pull Requests
-
-1. Fork the repo and create your branch from `main`
-2. If you've added code that should be tested, add tests
-3. If you've changed APIs, update the documentation
-4. Ensure the test suite passes
-5. Make sure your code follows the existing style (SwiftLint)
-6. Issue that pull request!
-
-## Development Setup
-
-```bash
-# Clone your fork
-git clone https://github.com/YOUR_USERNAME/SwiftRouter.git
-
-# Navigate to the project
-cd SwiftRouter
-
-# Open in Xcode
-open Package.swift
-
-# Run tests
-swift test
+```sh
+npm ci
+npm run lint        # ESLint and Prettier
+npm run typecheck   # the library, the tests and the type tests; src/ also without DOM types
+npm test            # Vitest
+npm run docs        # TypeDoc into docs/api
 ```
 
-## Style Guide
+The example app needs Xcode for iOS:
 
-- Follow [Swift API Design Guidelines](https://swift.org/documentation/api-design-guidelines/)
-- Use SwiftLint for code style consistency
-- Write meaningful commit messages following [Conventional Commits](https://www.conventionalcommits.org/)
-- Document public APIs with DocC-compatible comments
+```sh
+cd Examples/StorageDemo
+npm ci
+npm run typecheck
+npm run bundle                                   # Metro bundles for iOS, Android and the web
+cd ../..
+scripts/e2e-ios.sh <simulator UDID>              # builds, installs and checks the app
+scripts/capture-screenshots.sh <simulator UDID>  # regenerates docs/images
+```
 
-## Commit Messages
+## Pull requests
 
-We follow the [Conventional Commits](https://www.conventionalcommits.org/) specification:
+1. Fork the repository and branch from `main`.
+2. Keep each pull request focused on one change.
+3. Add or update tests in `test/` for any change in behaviour. Test edge cases at the
+   boundaries: empty and oversized input, `NaN` and infinities, concurrent calls.
+4. If you change a README code sample, change the copy in `test/readme.test.ts`, which compiles
+   and runs the samples.
+5. If you change the example app's screens, regenerate the screenshots.
+6. `README.md` has translations (`README.<language>.md`). If you change `README.md` and cannot
+   update them, say so in the pull request.
 
-- `feat:` A new feature
-- `fix:` A bug fix
-- `docs:` Documentation only changes
-- `style:` Code style changes (formatting, semicolons, etc)
-- `refactor:` Code change that neither fixes a bug nor adds a feature
-- `test:` Adding missing tests
-- `chore:` Changes to the build process or auxiliary tools
+## Code style
 
-Example: `feat(deeplink): add universal link support`
+- TypeScript in strict mode; `src/` must not use DOM or Node APIs, because it runs in React
+  Native.
+- No runtime dependencies: drivers accept the backend's instance and match it by shape.
+- Errors are `StorageError` with a code; messages never contain stored values.
+- Commit messages follow [Conventional Commits](https://www.conventionalcommits.org/)
+  (`feat:`, `fix:`, `docs:`, `test:`, `refactor:`, `ci:`, `chore:`).
 
 ## License
 
-By contributing, you agree that your contributions will be licensed under the MIT License.
+By contributing you agree that your contributions are licensed under the MIT License.
