@@ -1,4 +1,4 @@
-<!-- i18n-source: README.md@fd2285193b6401028dfb4805475e58e494f53d96 status=reviewed -->
+<!-- i18n-source: README.md@9ca949643242ad064ad3c2837eaccca29b820b9c status=reviewed -->
 <!-- brand:start -->
 
 <p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/ReactNativeStorage/main/.github/brand/banner-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/ReactNativeStorage/main/.github/brand/banner-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/ReactNativeStorage/main/.github/brand/banner-light.svg" alt="React Native Storage: Typed, validated key-value storage for React Native and Expo on MMKV, AsyncStorage or SecureStore."></picture></p>
@@ -33,7 +33,7 @@ Uma biblioteca TypeScript para guardar os dados do app no dispositivo em apps Re
 - **Dados que sobrevivem às atualizações do app** — cada registro carrega uma versão de schema; as migrations atualizam registros antigos passo a passo, um leitor `legacy` adota os valores gravados antes desta biblioteca, e registros de uma versão mais nova do app são deixados intactos.
 - **Expiração** — um time to live por item ou por gravação; um componente que exibe um valor expirado volta ao valor padrão no momento em que ele expira.
 - **Falhas que não derrubam o app** — dados armazenados corrompidos ou inválidos retornam o valor padrão e chegam ao `onError`; as mensagens de erro citam a chave, nunca o valor.
-- **Testado** — 163 testes do Vitest cobrem o codec, a validação, as migrations, o TTL, a ordem de gravações concorrentes, cada driver, o hook e os helpers; o app de exemplo roda em um simulador do iOS 27 com o MMKV e o Keychain reais em [`scripts/e2e-ios.sh`](scripts/e2e-ios.sh).
+- **Testado** — 164 testes do Vitest cobrem o codec, a validação, as migrations, o TTL, a ordem de gravações concorrentes, cada driver, o hook e os helpers; o app de exemplo roda em um simulador do iOS 27 com o MMKV e o Keychain reais em [`scripts/e2e-ios.sh`](scripts/e2e-ios.sh).
 
 ## Início rápido
 
@@ -91,7 +91,7 @@ Ele é distribuído com o código-fonte em TypeScript, que o Metro, o Expo, o Vi
 
 ## Uso
 
-Os exemplos abaixo são compilados e executados por [`test/readme.test.ts`](test/readme.test.ts), com o driver de memória no lugar do MMKV.
+Os exemplos abaixo são compilados e executados por [`test/readme.test.tsx`](test/readme.test.tsx), com o driver de memória no lugar do MMKV.
 
 ### Verificar valores com um schema
 

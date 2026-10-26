@@ -44,7 +44,7 @@ upgradable across app versions.
   back to the default at the moment it expires.
 - **Failures that do not crash the app** — corrupt or invalid stored data returns the default
   value and reaches `onError`; error messages name the key, never the value.
-- **Tested** — 163 Vitest tests cover the codec, validation, migrations, TTL, ordering of
+- **Tested** — 164 Vitest tests cover the codec, validation, migrations, TTL, ordering of
   concurrent writes, every driver, the hook and the helpers; the example app runs on an iOS 27
   simulator against the real MMKV and Keychain in [`scripts/e2e-ios.sh`](scripts/e2e-ios.sh).
 
@@ -107,7 +107,7 @@ directly; nothing runs at install time. Then add the backend you want to use:
 
 ## Usage
 
-The samples below are compiled and run by [`test/readme.test.ts`](test/readme.test.ts),
+The samples below are compiled and run by [`test/readme.test.tsx`](test/readme.test.tsx),
 with the memory driver in place of MMKV.
 
 ### Check values with a schema

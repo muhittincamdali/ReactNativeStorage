@@ -1,4 +1,4 @@
-<!-- i18n-source: README.md@fd2285193b6401028dfb4805475e58e494f53d96 status=reviewed -->
+<!-- i18n-source: README.md@9ca949643242ad064ad3c2837eaccca29b820b9c status=reviewed -->
 <!-- brand:start -->
 
 <p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/ReactNativeStorage/main/.github/brand/banner-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/ReactNativeStorage/main/.github/brand/banner-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/ReactNativeStorage/main/.github/brand/banner-light.svg" alt="React Native Storage: Typed, validated key-value storage for React Native and Expo on MMKV, AsyncStorage or SecureStore."></picture></p>
@@ -33,7 +33,7 @@ Une bibliothèque TypeScript pour conserver les données d’une application sur
 - **Des données qui survivent aux mises à jour de l’app** — chaque enregistrement porte une version de schéma ; les migrations mettent à niveau les anciens enregistrements pas à pas, un lecteur `legacy` reprend les valeurs écrites avant cette bibliothèque, et les enregistrements d’une version plus récente de l’app ne sont pas modifiés.
 - **Expiration** — un time to live par élément ou par écriture ; un composant qui affiche une valeur expirée revient à la valeur par défaut au moment même où elle expire.
 - **Des erreurs qui ne font pas planter l’app** — des données stockées corrompues ou invalides renvoient la valeur par défaut et parviennent à `onError` ; les messages d’erreur nomment la clé, jamais la valeur.
-- **Testé** — 163 tests Vitest couvrent le codec, la validation, les migrations, le TTL, l’ordre des écritures concurrentes, chaque driver, le hook et les helpers ; l’app d’exemple s’exécute sur un simulateur iOS 27 avec le vrai MMKV et le vrai Keychain dans [`scripts/e2e-ios.sh`](scripts/e2e-ios.sh).
+- **Testé** — 164 tests Vitest couvrent le codec, la validation, les migrations, le TTL, l’ordre des écritures concurrentes, chaque driver, le hook et les helpers ; l’app d’exemple s’exécute sur un simulateur iOS 27 avec le vrai MMKV et le vrai Keychain dans [`scripts/e2e-ios.sh`](scripts/e2e-ios.sh).
 
 ## Démarrage rapide
 
@@ -91,7 +91,7 @@ Il est livré avec ses sources TypeScript, que Metro, Expo, Vitest et le preset 
 
 ## Utilisation
 
-Les exemples ci-dessous sont compilés et exécutés par [`test/readme.test.ts`](test/readme.test.ts), avec le driver mémoire à la place de MMKV.
+Les exemples ci-dessous sont compilés et exécutés par [`test/readme.test.tsx`](test/readme.test.tsx), avec le driver mémoire à la place de MMKV.
 
 ### Vérifier les valeurs avec un schéma
 

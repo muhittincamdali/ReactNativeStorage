@@ -43,7 +43,7 @@ scripts/capture-screenshots.sh <simulator UDID>  # regenerates docs/images
 2. Keep each pull request focused on one change.
 3. Add or update tests in `test/` for any change in behaviour. Test edge cases at the
    boundaries: empty and oversized input, `NaN` and infinities, concurrent calls.
-4. If you change a README code sample, change the copy in `test/readme.test.ts`, which compiles
+4. If you change a README code sample, change the copy in `test/readme.test.tsx`, which compiles
    and runs the samples.
 5. If you change the example app's screens, regenerate the screenshots.
 6. `README.md` has translations (`README.<language>.md`). If you change `README.md` and cannot

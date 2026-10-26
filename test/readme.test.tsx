@@ -1,6 +1,10 @@
-// The Usage samples from README.md, with memoryDriver() in place of mmkvDriver(createMMKV())
-// and a stub for expo-secure-store. If you change a sample there, change it here too.
-import { describe, expect, it, vi } from 'vitest';
+// @vitest-environment jsdom
+// The Usage samples from README.md, with memoryDriver() in place of mmkvDriver(createMMKV()),
+// a stub for expo-secure-store and DOM stand-ins for React Native's Text and Button. If you
+// change a sample there, change it here too.
+import { act, cleanup, fireEvent, render, screen } from '@testing-library/react';
+import type { ReactNode } from 'react';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import { z } from 'zod';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
@@ -11,6 +15,7 @@ import {
   toStateStorage,
   type SecureStoreLike,
 } from '../src/index';
+import { useStorageItem } from '../src/react';
 
 const driver = memoryDriver();
 const warn = vi.fn();
@@ -26,6 +31,20 @@ export const theme = storage.item('theme', {
   schema: z.enum(['system', 'light', 'dark']),
   defaultValue: 'system',
 });
+
+// "Show a value in a component"
+function Text({ children }: { children: ReactNode }) {
+  return <span>{children}</span>;
+}
+function Button({ title, onPress }: { title: string; onPress: () => void }) {
+  return <button onClick={onPress}>{title}</button>;
+}
+
+function ThemePicker() {
+  const [value, setValue, { status, error }] = useStorageItem(theme);
+  if (status === 'error') return <Text>Could not read the theme: {error?.code}</Text>;
+  return <Button title={`Theme: ${value}`} onPress={() => setValue('dark')} />;
+}
 
 // "Change the shape of stored data"
 export const profile = storage.item('profile', {
@@ -70,11 +89,25 @@ export const useCart = create<Cart>()(
   ),
 );
 
+afterEach(cleanup);
+
 describe('README samples', () => {
   it('checks values with a schema', async () => {
     await theme.set('dark');
     // @ts-expect-error "purple" is not in the enum
     await expect(theme.set('purple')).rejects.toMatchObject({ code: 'VALIDATION_FAILED' });
+    expect(await theme.get()).toBe('dark');
+  });
+
+  it('shows the theme in a component and saves a change', async () => {
+    await theme.set('light');
+    render(<ThemePicker />);
+    const button = screen.getByRole('button');
+    expect(button.textContent).toBe('Theme: light');
+    await act(async () => {
+      fireEvent.click(button);
+    });
+    expect(button.textContent).toBe('Theme: dark');
     expect(await theme.get()).toBe('dark');
   });
 

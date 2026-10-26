@@ -1,4 +1,4 @@
-<!-- i18n-source: README.md@fd2285193b6401028dfb4805475e58e494f53d96 status=reviewed -->
+<!-- i18n-source: README.md@9ca949643242ad064ad3c2837eaccca29b820b9c status=reviewed -->
 <!-- brand:start -->
 
 <p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/ReactNativeStorage/main/.github/brand/banner-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/ReactNativeStorage/main/.github/brand/banner-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/ReactNativeStorage/main/.github/brand/banner-light.svg" alt="React Native Storage: Typed, validated key-value storage for React Native and Expo on MMKV, AsyncStorage or SecureStore."></picture></p>
@@ -33,7 +33,7 @@ React Native와 Expo 앱에서 앱 데이터를 기기에 보관하기 위한 Ty
 - **앱 업데이트 후에도 살아남는 데이터** — 모든 레코드에 스키마 버전이 들어 있습니다. migration이 오래된 레코드를 단계별로 업그레이드하고, `legacy` 리더가 이 라이브러리를 쓰기 전에 저장된 값을 이어받으며, 더 새로운 앱 버전이 만든 레코드는 건드리지 않습니다.
 - **만료** — 항목별 또는 쓰기별 time to live를 지정할 수 있으며, 만료된 값을 표시하는 컴포넌트는 만료되는 순간 기본값으로 돌아갑니다.
 - **앱을 중단시키지 않는 실패 처리** — 손상되었거나 유효하지 않은 저장 데이터는 기본값을 반환하고 `onError`로 전달됩니다. 오류 메시지에는 키만 들어가고 값은 절대 들어가지 않습니다.
-- **테스트됨** — Vitest 테스트 163개가 codec, 검증, migration, TTL, 동시 쓰기의 순서, 모든 driver, hook, 헬퍼를 다룹니다. 예제 앱은 [`scripts/e2e-ios.sh`](scripts/e2e-ios.sh)를 통해 iOS 27 시뮬레이터에서 실제 MMKV와 Keychain으로 실행됩니다.
+- **테스트됨** — Vitest 테스트 164개가 codec, 검증, migration, TTL, 동시 쓰기의 순서, 모든 driver, hook, 헬퍼를 다룹니다. 예제 앱은 [`scripts/e2e-ios.sh`](scripts/e2e-ios.sh)를 통해 iOS 27 시뮬레이터에서 실제 MMKV와 Keychain으로 실행됩니다.
 
 ## 빠른 시작
 
@@ -91,7 +91,7 @@ TypeScript 소스로 배포되며 Metro, Expo, Vitest, `jest-expo` 프리셋이 
 
 ## 사용법
 
-아래 예제는 MMKV 대신 메모리 driver를 사용해 [`test/readme.test.ts`](test/readme.test.ts)에서 컴파일되고 실행됩니다.
+아래 예제는 MMKV 대신 메모리 driver를 사용해 [`test/readme.test.tsx`](test/readme.test.tsx)에서 컴파일되고 실행됩니다.
 
 ### 스키마로 값 검증하기
 

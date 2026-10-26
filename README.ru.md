@@ -1,4 +1,4 @@
-<!-- i18n-source: README.md@fd2285193b6401028dfb4805475e58e494f53d96 status=reviewed -->
+<!-- i18n-source: README.md@9ca949643242ad064ad3c2837eaccca29b820b9c status=reviewed -->
 <!-- brand:start -->
 
 <p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/muhittincamdali/ReactNativeStorage/main/.github/brand/banner-dark.svg"><source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/muhittincamdali/ReactNativeStorage/main/.github/brand/banner-light.svg"><img src="https://raw.githubusercontent.com/muhittincamdali/ReactNativeStorage/main/.github/brand/banner-light.svg" alt="React Native Storage: Typed, validated key-value storage for React Native and Expo on MMKV, AsyncStorage or SecureStore."></picture></p>
@@ -33,7 +33,7 @@
 - **Данные, которые переживают обновления приложения** — каждая запись содержит версию схемы; migration шаг за шагом обновляют старые записи, читатель `legacy` подхватывает значения, записанные до появления этой библиотеки, а записи более новой версии приложения остаются нетронутыми.
 - **Срок действия** — time to live для элемента или для отдельной записи; компонент, показывающий просроченное значение, возвращается к значению по умолчанию в момент истечения срока.
 - **Ошибки, не роняющие приложение** — повреждённые или недопустимые сохранённые данные возвращают значение по умолчанию и попадают в `onError`; в сообщениях об ошибках указан ключ, но никогда не значение.
-- **Протестировано** — 163 теста Vitest покрывают codec, проверку, migration, TTL, порядок параллельных записей, каждый driver, hook и вспомогательные функции; пример приложения запускается на симуляторе iOS 27 с настоящими MMKV и Keychain в [`scripts/e2e-ios.sh`](scripts/e2e-ios.sh).
+- **Протестировано** — 164 теста Vitest покрывают codec, проверку, migration, TTL, порядок параллельных записей, каждый driver, hook и вспомогательные функции; пример приложения запускается на симуляторе iOS 27 с настоящими MMKV и Keychain в [`scripts/e2e-ios.sh`](scripts/e2e-ios.sh).
 
 ## Быстрый старт
 
@@ -91,7 +91,7 @@ npm install github:muhittincamdali/ReactNativeStorage
 
 ## Использование
 
-Примеры ниже компилируются и запускаются в [`test/readme.test.ts`](test/readme.test.ts) с driver памяти вместо MMKV.
+Примеры ниже компилируются и запускаются в [`test/readme.test.tsx`](test/readme.test.tsx) с driver памяти вместо MMKV.
 
 ### Проверка значений схемой
 
