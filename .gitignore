@@ -1,26 +1,22 @@
+# Dependencies and build output
 node_modules/
 lib/
-.expo/
-dist/
+docs/api/
+coverage/
 *.tsbuildinfo
+
+# Example app: native projects from expo prebuild, bundles from expo export
+Examples/*/ios/
+Examples/*/android/
+Examples/*/dist/
+Examples/*/.expo/
+
+# Work notes
+_work/
+
+# Tools
+.lycheecache
 .DS_Store
 *.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
 .env
-.env.local
-.env.*.local
-coverage/
-.jest/
-*.js.map
-*.d.ts.map
-.idea/
-.vscode/
-*.iml
-*.xcworkspace
-*.xcuserdata
-Pods/
-build/
-android/build/
-ios/build/
+.env.*

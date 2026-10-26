@@ -1,53 +1,38 @@
-# Security Policy
+# Security policy
 
-## Supported Versions
+## Supported versions
 
-| Version | Supported          |
-| ------- | ------------------ |
-| 1.x.x   | :white_check_mark: |
-| < 1.0   | :x:                |
+| Version                 | Supported                                     |
+| ----------------------- | --------------------------------------------- |
+| 2.x (the `main` branch) | Yes                                           |
+| 1.x                     | No: removed; it had no tested storage backend |
 
-## Reporting a Vulnerability
+## Reporting a vulnerability
 
-We take the security of SwiftRouter seriously. If you have discovered a security vulnerability, we appreciate your help in disclosing it to us in a responsible manner.
+Report it privately through
+[GitHub security advisories](https://github.com/muhittincamdali/ReactNativeStorage/security/advisories/new),
+not in a public issue. Include the version or commit, the driver you use, and the smallest code
+that shows the problem. You will get an answer within seven days.
 
-### How to Report
+## What this library protects, and what it does not
 
-**Please do not report security vulnerabilities through public GitHub issues.**
+It protects against data that is malformed, oversized or crafted, and against leaking values
+through errors:
 
-Instead, please report them via email to the repository owner. You can find contact information on the GitHub profile.
+- Stored text is never trusted. Records are parsed with `JSON.parse`, decoded with a depth limit
+  of 64, defined as own properties (so `__proto__` cannot change a prototype), checked against
+  the item's schema and limited to `maxValueBytes` before they are parsed.
+- Keys, namespaces, TTLs, versions, limits and the clock are checked at the boundary: control
+  characters, `NaN`, infinities, fractions and values outside the safe integer range are refused
+  with `INVALID_KEY` or `INVALID_OPTION`.
+- `StorageError` messages name the key and the reason, never the value. Schema messages, which
+  can quote the value, are kept in `error.issues`; log them only if the value is not secret.
+- `secureStoreDriver` keeps values in the iOS Keychain or the Android Keystore through
+  expo-secure-store; `randomSecret` and `getOrCreateSecret` use `crypto.getRandomValues` without
+  modulo bias.
 
-Please include the following information:
-
-- Type of issue (e.g., deep link injection, state manipulation, etc.)
-- Full paths of source file(s) related to the manifestation of the issue
-- The location of the affected source code (tag/branch/commit or direct URL)
-- Any special configuration required to reproduce the issue
-- Step-by-step instructions to reproduce the issue
-- Proof-of-concept or exploit code (if possible)
-- Impact of the issue, including how an attacker might exploit it
-
-### What to Expect
-
-- A confirmation of receipt within 48 hours
-- An assessment of the vulnerability within 7 days
-- Regular updates on our progress
-- Credit for responsible disclosure (if desired)
-
-## Security Best Practices
-
-When using SwiftRouter in your projects:
-
-1. **Validate Deep Links** - Always validate URL parameters before navigation
-2. **Use Route Guards** - Implement authentication guards for protected routes
-3. **Sanitize Parameters** - Never trust user input from URL parameters
-4. **Audit Navigation Paths** - Review which screens are accessible via deep links
-
-## Security Features
-
-SwiftRouter includes several security considerations:
-
-- **Type-Safe Parameters** - Reduces injection risks
-- **Route Guards** - Authentication/authorization interceptors
-- **URL Validation** - Built-in URL parsing with validation
-- **No External Dependencies** - Minimal attack surface
+It does not encrypt anything itself. MMKV, AsyncStorage and `localStorage` keep data in the
+app's sandbox or the browser profile in plain form unless you encrypt MMKV (see
+[Keep tokens and keys secure](docs/guides/secure-values.md)). Anyone with access to an unlocked,
+jailbroken or rooted device, or to an unencrypted backup, can read that data. Keep tokens and
+keys in SecureStore.

@@ -1,0 +1,29 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "name": "React Native Storage",
+  "entryPoints": ["src/index.ts", "src/react.ts"],
+  "out": "docs/api",
+  "tsconfig": "tsconfig.lib.json",
+  "readme": "docs/guides/overview.md",
+  "projectDocuments": [
+    "docs/guides/migrating-from-async-storage.md",
+    "docs/guides/schemas-and-migrations.md",
+    "docs/guides/secure-values.md",
+    "docs/guides/testing.md"
+  ],
+  "customCss": "docs/typedoc.css",
+  "excludeInternal": true,
+  "excludePrivate": true,
+  "includeVersion": true,
+  "sort": ["source-order"],
+  "navigationLinks": {
+    "GitHub": "https://github.com/muhittincamdali/ReactNativeStorage"
+  },
+  "sourceLinkTemplate": "https://github.com/muhittincamdali/ReactNativeStorage/blob/main/{path}#L{line}",
+  "treatWarningsAsErrors": true,
+  "validation": {
+    "notExported": true,
+    "invalidLink": true,
+    "notDocumented": false
+  }
+}
