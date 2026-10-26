@@ -1,0 +1,11 @@
+lib/
+docs/api/
+_work/
+node_modules/
+package-lock.json
+Examples/*/package-lock.json
+Examples/*/ios/
+Examples/*/android/
+Examples/*/dist/
+.github/brand/
+CHANGELOG.md
