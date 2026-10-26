@@ -8,8 +8,10 @@ export interface SecureStoreLike<Options = unknown> {
 }
 
 /**
- * The largest value expo-secure-store accepts reliably. Its documentation warns that larger
- * values may be rejected on some platforms, so the storage refuses them up front.
+ * The value limit of {@link secureStoreDriver}, in UTF-8 bytes. The expo-secure-store
+ * documentation notes that some iOS releases refused values above roughly 2048 bytes and that
+ * Expo enforces no limit itself; the driver does, so an oversized value fails the same way on
+ * every device. Spread the driver and set `maxValueBytes` to change it.
  */
 export const SECURE_STORE_MAX_VALUE_BYTES = 2048;
 
